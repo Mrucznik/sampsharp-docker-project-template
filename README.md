@@ -1,4 +1,5 @@
-# Samp Sharp with Docker project template
+# Samp Sharp with Docker
+This template contains SampSharp template gamemode with configured Dockerfile. With this, you only need docker to build and run whole project.
 
 ## Dependencies
 You only need [docker](https://docs.docker.com/get-docker/).
