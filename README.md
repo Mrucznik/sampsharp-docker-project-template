@@ -20,4 +20,4 @@ And you should get SA-MP server with SampSharp gamemode running on port 7777 :)
 
 ## Known bugs
 
-- Container crashes on Windows system](https://github.com/Mrucznik/sampsharp-docker-project-template/issues/1)
+- [Container crashes on Windows system](https://github.com/Mrucznik/sampsharp-docker-project-template/issues/1)
