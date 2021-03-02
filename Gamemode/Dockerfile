@@ -1,8 +1,9 @@
+
 #
 # Build gamemode stage
 #
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-gamemode
-
+RUN export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 WORKDIR /build
 
 # Copy csproj and restore as distinct layers
@@ -19,13 +20,14 @@ RUN dotnet publish -c Release -o out
 # SAMP server stage
 #
 FROM ubuntu
-
 # Install libraries
-RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y \
-    g++-multilib \ 
-    wget \
-    unzip \
-    libicu66:i386
+#RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+RUN apt-get install libc6 -y
+RUN rm /var/cache/debconf/*
+RUN apt-get update -y && apt-get upgrade -y
+RUN dpkg --add-architecture i386
+RUN apt-get install wget \
+    unzip -y
 
 # Get SAMP server
 RUN mkdir /home/samp && \
@@ -62,3 +64,5 @@ EXPOSE 7777
 
 WORKDIR /home/samp
 ENTRYPOINT ./samp03svr
+
+RUN export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
