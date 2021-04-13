@@ -22,12 +22,14 @@ RUN dotnet publish -c Release -o out
 FROM ubuntu
 # Install libraries
 #RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
-RUN apt-get install libc6 -y
+RUN dpkg --add-architecture i386
 RUN rm /var/cache/debconf/*
 RUN apt-get update -y && apt-get upgrade -y
-RUN dpkg --add-architecture i386
+RUN apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 -y
+RUN apt-get install libicu-dev:i386 -y
 RUN apt-get install wget \
     unzip -y
+
 
 # Get SAMP server
 RUN mkdir /home/samp && \
@@ -62,7 +64,8 @@ VOLUME /home/samp/scriptfiles
 
 EXPOSE 7777    
 
+RUN export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+
 WORKDIR /home/samp
 ENTRYPOINT ./samp03svr
 
-RUN export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
